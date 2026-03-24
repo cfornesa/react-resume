@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;900&family=JetBrains+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-nav: rgba(255, 255, 255, 0.8);
+  --surface-container: #F1F5F9;
+  --surface-container-lowest: #FFFFFF;
+  --on-background: #0F172A;
+  --on-surface: #1E293B;
+  --on-surface-variant: #64748B;
+  --outline: #E2E8F0;
+  --outline-variant: #F1F5F9;
+  --grid-color: rgba(15, 23, 42, 0.05);
+  --brutal-shadow: rgba(255, 51, 102, 0.4);
+  --border-width: 2px;
+}
+
+.dark {
+  --background: #020617;
+  --surface: #0F172A;
+  --surface-nav: rgba(15, 23, 42, 0.8);
+  --surface-container: #1E293B;
+  --surface-container-lowest: #020617;
+  --on-background: #F8FAFC;
+  --on-surface: #F1F5F9;
+  --on-surface-variant: #94A3B8;
+  --outline: #334155;
+  --outline-variant: #1E293B;
+  --grid-color: rgba(248, 250, 252, 0.05);
+  --brutal-shadow: rgba(255, 51, 102, 1);
+  --border-width: 4px;
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Anton", sans-serif;
+  
+  --color-primary: #FF3366; /* Neon Pink */
+  --color-secondary: #00F5FF; /* Electric Blue */
+  --color-tertiary: #FFD700; /* Gold */
+  
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-nav: var(--surface-nav);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-on-background: var(--on-background);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-background antialiased overflow-x-hidden;
+  }
+  
+  .glass-panel {
+    @apply bg-surface/80 backdrop-blur-xl border border-outline/50;
+  }
+  
+  .brutal-border {
+    border: var(--border-width) solid var(--on-background);
+    box-shadow: 8px 8px 0px 0px var(--brutal-shadow);
+    @apply transition-all duration-300;
+  }
+
+  .stroke-text {
+    -webkit-text-stroke: 2px var(--on-background);
+    color: transparent;
+  }
+
+  .dark .stroke-text {
+    -webkit-text-stroke: 2px var(--color-tertiary);
+  }
+
+  .grid-bg {
+    background-image: 
+      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .marquee {
+    @apply flex whitespace-nowrap overflow-hidden;
+  }
+
+  .marquee-content {
+    display: flex;
+    animation: marquee 20s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 20s linear infinite;
+  }
+
+  .glitch-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+  }
+
+  .glitch-text::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+  }
+
+  .glitch-text::after {
+    left: -2px;
+    text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+    animation: glitch-anim2 1s infinite linear alternate-reverse;
+  }
+
+  @keyframes glitch-anim {
+    0% { clip: rect(31px, 9999px, 94px, 0); }
+    20% { clip: rect(62px, 9999px, 42px, 0); }
+    40% { clip: rect(16px, 9999px, 78px, 0); }
+    60% { clip: rect(11px, 9999px, 13px, 0); }
+    80% { clip: rect(85px, 9999px, 40px, 0); }
+    100% { clip: rect(46px, 9999px, 69px, 0); }
+  }
+
+  @keyframes glitch-anim2 {
+    0% { clip: rect(65px, 9999px, 100px, 0); }
+    20% { clip: rect(25px, 9999px, 58px, 0); }
+    40% { clip: rect(15px, 9999px, 47px, 0); }
+    60% { clip: rect(82px, 9999px, 93px, 0); }
+    80% { clip: rect(56px, 9999px, 12px, 0); }
+    100% { clip: rect(10px, 9999px, 29px, 0); }
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
