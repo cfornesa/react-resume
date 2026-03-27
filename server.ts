@@ -9,7 +9,7 @@ import { generateResponse } from "./src/server/model.ts";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.resolve(process.cwd(), ".builds/config/.env") });
+dotenv.config();
 
 const isProduction = process.env.NODE_ENV === "production" || !process.env.NODE_ENV;
 
