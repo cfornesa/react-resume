@@ -1,26 +1,23 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
-import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { initRAG, getContext } from "./src/server/rag_module.ts";
 import { generateResponse } from "./src/server/model.ts";
-import { existsSync } from "fs";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const DOTENV_PATHS = [
-  path.join(__dirname, "config.env"),
-  path.join(__dirname, "..", "config.env"),
-  path.join(process.cwd(), "config.env"),
-];
-for (const p of DOTENV_PATHS) {
-  if (existsSync(p)) dotenv.config({ path: p });
-}
+// Loads .env from project root if present (local dev convenience).
+// In production, env vars are set via the Hostinger panel and available as process.env.* directly.
 dotenv.config();
 
-const isProduction = process.env.NODE_ENV === "production" || !process.env.NODE_ENV;
+// Fail fast at startup if required vars are missing — surfaces errors before any request is served.
+const REQUIRED_VARS = ["MISTRAL_API_KEY", "AGENT_ID"] as const;
+const missing = REQUIRED_VARS.filter((v) => !process.env[v]);
+if (missing.length > 0) {
+  console.error(`[FATAL] Missing required environment variables: ${missing.join(", ")}`);
+  process.exit(1);
+}
+
+const isProduction = process.env.NODE_ENV !== "development";
 
 async function startServer() {
   const app = express();

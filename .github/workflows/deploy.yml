@@ -1,26 +1,23 @@
-name: Deploy to Hostinger
+name: CI
 
 on:
   push:
     branches: [main]
 
 jobs:
-  deploy:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts || true
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-      - name: Write .env to Hostinger
-        run: |
-          ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=10 -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "echo 'NODE_ENV=${{ secrets.NODE_ENV }}' > ~/domains/chris.com.ph/public_html/.builds/config/.env && \
-             echo 'MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }}' >> ~/domains/chris.com.ph/public_html/.builds/config/.env && \
-             echo 'AGENT_ID=${{ secrets.AGENT_ID }}' >> ~/domains/chris.com.ph/public_html/.builds/config/.env && \
-             echo 'APP_URL=${{ secrets.APP_URL }}' >> ~/domains/chris.com.ph/public_html/.builds/config/.env"
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
