@@ -11,6 +11,8 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const isProduction = process.env.NODE_ENV === "production" || !process.env.NODE_ENV;
+
 async function startServer() {
   const app = express();
   const PORT = process.env.PORT || 3000;
@@ -40,7 +42,7 @@ async function startServer() {
   });
 
   // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
+  if (!isProduction) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
