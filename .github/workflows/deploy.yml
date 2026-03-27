@@ -10,15 +10,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create .env file
+      - name: Setup SSH
         run: |
-          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
-          echo "MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }}" >> .env
-          echo "AGENT_ID=${{ secrets.AGENT_ID }}" >> .env 
-          echo "APP_URL=${{ secrets.APP_URL }}" >> .env
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
+      - name: Write .env to Hostinger
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            echo 'NODE_ENV=${{ secrets.NODE_ENV }}' > ~/public_html/.builds/config/.env
+            echo 'MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }}' >> ~/public_html/.builds/config/.env
+            echo 'AGENT_ID=${{ secrets.AGENT_ID }}' >> ~/public_html/.builds/config/.env
+            echo 'APP_URL=${{ secrets.APP_URL }}' >> ~/public_html/.builds/config/.env
+          "
