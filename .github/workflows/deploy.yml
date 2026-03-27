@@ -20,6 +20,7 @@ jobs:
       - name: Write .env to Hostinger
         run: |
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            mkdir -p ~/public_html &&
             echo 'NODE_ENV=${{ secrets.NODE_ENV }}' > ~/public_html/.env &&
             echo 'MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }}' >> ~/public_html/.env &&
             echo 'AGENT_ID=${{ secrets.AGENT_ID }}' >> ~/public_html/.env &&
