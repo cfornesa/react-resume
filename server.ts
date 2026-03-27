@@ -19,7 +19,7 @@ if (missing.length > 0) {
 
 // Determine if we're in production mode based on NODE_ENV. 
 // This controls whether we use Vite's dev middleware or serve static files.
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV !== "development";
 
 // Main function to start the Express server
 async function startServer() {
