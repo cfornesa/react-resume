@@ -17,6 +17,11 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts || true
 
-      - name: Find correct path
+      - name: Write .env to Hostinger
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la ~/domains/chris.com.ph/public_html/"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            echo 'NODE_ENV=${{ secrets.NODE_ENV }}' > ~/domains/chris.com.ph/public_html/.builds/config/.env &&
+            echo 'MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }}' >> ~/domains/chris.com.ph/public_html/.builds/config/.env &&
+            echo 'AGENT_ID=${{ secrets.AGENT_ID }}' >> ~/domains/chris.com.ph/public_html/.builds/config/.env &&
+            echo 'APP_URL=${{ secrets.APP_URL }}' >> ~/domains/chris.com.ph/public_html/.builds/config/.env
+          "
