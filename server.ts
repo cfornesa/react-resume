@@ -5,10 +5,19 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { initRAG, getContext } from "./src/server/rag_module.ts";
 import { generateResponse } from "./src/server/model.ts";
+import { existsSync } from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const DOTENV_PATHS = [
+  path.join(__dirname, "config.env"),
+  path.join(__dirname, "..", "config.env"),
+  path.join(process.cwd(), "config.env"),
+];
+for (const p of DOTENV_PATHS) {
+  if (existsSync(p)) dotenv.config({ path: p });
+}
 dotenv.config();
 
 const isProduction = process.env.NODE_ENV === "production" || !process.env.NODE_ENV;
