@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Core server setup with Express, 
+  // Vite middleware for development, and API routes for RAG chatbot functionality.
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Terminal, 
@@ -30,6 +32,7 @@ import {
   MapPin,
   Briefcase
 } from 'lucide-react';
+// Import server-side modules and RAG utilities
 import { motion, AnimatePresence } from 'motion/react';
 
 // --- Types ---
@@ -39,13 +42,14 @@ interface Message {
 }
 
 // --- Components ---
-
+// GlassCard component for consistent styling of content sections with optional pulsing effect for emphasis
 const GlassCard = ({ children, className = "", pulse = false }: { children: React.ReactNode, className?: string, pulse?: boolean }) => (
   <div className={`glass-panel p-6 rounded-xl relative overflow-hidden ${pulse ? 'pulse-accent' : ''} ${className}`}>
     {children}
   </div>
 );
 
+// SectionHeading component for consistent styling of section titles with an icon and decorative line
 const SectionHeading = ({ title, icon: Icon }: { title: string, icon: any }) => (
   <div className="flex items-baseline gap-4 mb-8">
     <h2 className="text-3xl font-bold tracking-tight flex items-center gap-3">
@@ -55,6 +59,7 @@ const SectionHeading = ({ title, icon: Icon }: { title: string, icon: any }) => 
   </div>
 );
 
+// ResumeContent component containing the structured content of the resume, styled with Tailwind CSS for a clean and professional look
 const ResumeContent = () => (
   <div className="bg-white text-black p-6 md:p-12 max-w-[800px] mx-auto shadow-2xl font-sans text-left">
     <div className="flex flex-col md:flex-row justify-between items-start border-b-4 border-black pb-8 mb-8 gap-4">
