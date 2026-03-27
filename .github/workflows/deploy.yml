@@ -19,4 +19,4 @@ jobs:
 
       - name: Find correct path
         run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pwd && echo '---' && ls -la ~ && echo '---' && ls -la ~/.builds 2>/dev/null || echo 'no .builds dir'"
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la ~/domains/chris.com.ph/"
