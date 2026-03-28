@@ -355,7 +355,7 @@ export default function App() {
                 className="relative z-20 brutal-border overflow-hidden aspect-[3/4] bg-surface"
               >
                 <img 
-                  src="/profile.jpeg" 
+                  src="/profile.JPG" 
                   alt="Christopher Fornesa" 
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                   onError={(e) => { (e.target as HTMLImageElement).src = "https://picsum.photos/seed/chris-fornesa/800/1000" }}
@@ -391,7 +391,7 @@ export default function App() {
             <div className="md:col-span-4">
               <div className="brutal-border aspect-square overflow-hidden bg-primary/20 -rotate-3">
                 <img 
-                  src="/profile.jpeg" 
+                  src="/profile.JPG" 
                   alt="Chris Fornesa" 
                   className="w-full h-full object-cover grayscale"
                   onError={(e) => { (e.target as HTMLImageElement).src = "https://picsum.photos/seed/chris-fornesa/800/800" }}
@@ -514,7 +514,7 @@ export default function App() {
             </div>
             <div className="hidden lg:block">
               <img 
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&auto=format&fit=crop" 
+                src="/guide.png" 
                 alt="Workspace" 
                 className="w-full h-full object-cover rounded-2xl border border-outline-variant/20 shadow-2xl"
               />
