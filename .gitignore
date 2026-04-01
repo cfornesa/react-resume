@@ -8,3 +8,4 @@ coverage/
 !.env.example
 config.env
 server.bundle.js
+.embeddings.json
